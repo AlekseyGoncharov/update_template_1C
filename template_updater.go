@@ -193,6 +193,7 @@ func main() {
 	new_version := flag.String("v", "NO", "new version of configuration")
 	source := flag.String("d", "NO", "template directory")
 	mft_file := *source + "\\1Cv8.mft"
+	flag.Parse()
 	if *id == "NO" {
 		fmt.Println("ID required")
 		return
