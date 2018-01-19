@@ -1,4 +1,3 @@
-// test project main.go
 package main
 
 import (
@@ -13,7 +12,6 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
-
 	"golang.org/x/text/encoding/charmap"
 )
 
