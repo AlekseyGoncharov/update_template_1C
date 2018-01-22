@@ -192,8 +192,8 @@ func main() {
 	out_file := flag.String("listout", *in_file, "Path to destination list.ini(IF you need test")
 	new_version := flag.String("v", "NO", "new version of configuration")
 	source := flag.String("d", "NO", "template directory")
-	mft_file := *source + "\\1Cv8.mft"
 	flag.Parse()
+	mft_file := *source + "\\1Cv8.mft"
 	if *id == "NO" {
 		fmt.Println("ID required")
 		return
