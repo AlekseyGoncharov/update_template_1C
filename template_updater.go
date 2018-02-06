@@ -1,3 +1,4 @@
+// test project main.go
 package main
 
 import (
@@ -12,6 +13,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+
 	"golang.org/x/text/encoding/charmap"
 )
 
@@ -185,6 +187,32 @@ func fcopy(src string, dst string, info os.FileInfo) error {
 	return nil
 }
 
+func rotate(src string, dst string, new_version string) error {
+	err := os.RemoveAll(src)
+	if err != nil {
+		return err
+	}
+
+	listDir, err := ioutil.ReadDir(dst)
+	if err != nil {
+		return err
+	}
+	for _, dir := range listDir {
+		if dir.Name() != strings.Replace(new_version, ".", "_", 4) {
+			ver := strings.Split(new_version, ".")
+			ver_dir := strings.Split(dir.Name(), "_")
+			if ver[0] == ver_dir[0] {
+				if ver[1] == ver_dir[1] {
+					err := os.RemoveAll(dst + "\\" + dir.Name())
+					if err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
 func main() {
 	csv_path := flag.String("csv", "\\\\dc\\e$\\templates\\base.csv", "Path to csv file( Default:\\\\dc\\e$\\templates\\base.csv")
 	id := flag.String("id", "NO", "Conf ID, Example: UT or ACCKZ30(from list.ini)")
@@ -193,7 +221,8 @@ func main() {
 	new_version := flag.String("v", "NO", "new version of configuration")
 	source := flag.String("d", "NO", "template directory")
 	flag.Parse()
-	mft_file := *source + "\\1Cv8.mft"
+	source_temp := strings.Replace(*source, "\\", "\\\\", 10)
+	mft_file := source_temp + "\\1Cv8.mft"
 	if *id == "NO" {
 		fmt.Println("ID required")
 		return
@@ -235,4 +264,9 @@ func main() {
 	if err != nil {
 		return
 	}
+	err = rotate(*source, destination, *new_version)
+	if err != nil {
+		return
+	}
 }
+
