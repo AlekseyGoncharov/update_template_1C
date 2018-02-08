@@ -53,7 +53,7 @@ func swapVersion(in_file string, out_file string, conf string, new_version strin
 	str := string(Convert(bs, "utf8"))
 	lines := strings.Split(str, "\n")
 
-	var version string
+	version := "abracadabra"
 	for i, line := range lines {
 		if strings.Contains(line, conf) {
 			version = lines[i+4][4 : len(lines[i+4])-1]
